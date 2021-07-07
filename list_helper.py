@@ -2,6 +2,9 @@ import pandas as pd
 import numpy as np
 import datetime as dt
 
+# pyinstaller -F list_helper.py
+
+
 fileName = input("請輸入xlsx檔案名稱(不用輸入副檔名)：")
 dataPath = './%s.xlsx' % (fileName)
 data = pd.read_excel(dataPath)
@@ -46,17 +49,19 @@ colNameEn = {
     "12": "red_list",
 }
 
+
 def myDiv():
     print("-" * 50)
+
 
 def colSelctor():
     colList = []
     for i in colNameCh:
-        print(i, ":",colNameCh[i])
+        print(i, ":", colNameCh[i])
     myDiv()
 
     while True:
-        x = str(input('請輸入想要的欄位代號：')) 
+        x = str(input('請輸入想要的欄位代號：'))
         print("目前選擇的欄位有：\n選完請直接按Enter繼續")
         for y in colList:
             print(colNameCh[y])
@@ -68,7 +73,7 @@ def colSelctor():
         elif x in colList:
             print("欄位重複，請重新輸入")
             myDiv()
-        
+
         elif x in colNameCh.keys():
             colList.append(x)
             print("目前選擇的欄位：\n選完請直接按Enter")
@@ -94,39 +99,8 @@ def finalOutput(aList):
     return opFinal
 
 
-
 yourBirdList = finalOutput(colSelctor())
-print(yourBirdList)
+# print(yourBirdList)
 
 timeNow = dt.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-yourBirdList.to_excel(r'./output_%s.xlsx' % (timeNow), index = False)
-
-
-# ch_name = birdOutput['ch_name'].tolist()
-# s_name = birdOutput['s_name'].tolist()
-# family = birdOutput['family'].tolist()
-# con_level = birdOutput['con_level'].tolist()
-# red_list = birdOutput['red_list'].tolist()
-# count = birdOutput['count'].tolist()
-# precent = birdOutput['precent'].tolist()
-
-# # print(birdOutput)
-
-
-
-# outputDict = {
-#     "中文名": ch_name,
-#     "學名": s_name,
-#     "科名": family,
-#     "保育等級": con_level,
-#     "紅皮書受脅等級": red_list,
-#     "累計調查隻次": count,
-#     "有記錄之樣區數": precent,
-# }
-
-# finalOutput = pd.DataFrame(outputDict)
-
-# # finalOutput.to_excel(r'./output.xlsx', index = False)
-
-
-# print(finalOutput)
+yourBirdList.to_excel(r'./output_%s.xlsx' % (timeNow), index=False)
