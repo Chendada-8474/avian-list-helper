@@ -5,12 +5,20 @@ try:
     import numpy as np
     import datetime as dt
 
+    def myDiv(n):
+        print("-" * n)
+
+    def intro():
+        print("1. 將自己調查到的鳥種整理成只有一欄的excel。請參考input_demo.xlsx。\n2. 把檔案存在跟程式同一個資料夾內。\n3. 2020_list.xlsx 這一個檔案也要放在同一個資料夾內。這裡面的內容可以直接在裡面更改，例如鳥種有誤之類的。\n4. 啟動 list_helper.exe。程式啟動後輸入鳥種清單檔名，不用打副檔名。\n5. 選擇想要的欄位，一次選一個。\n6. 式就會產生名錄excel檔，檔名為：output_目前日期時間.xlsx。")
+        myDiv(50)
+
+    intro()
+
     fileName = input("請輸入xlsx檔案名稱(不用輸入副檔名)：")
     dataPath = './%s.xlsx' % (fileName)
     data = pd.read_excel(dataPath)
     listPath = './2020_list.xlsx'
     birdList = pd.read_excel(listPath)
-
 
     data = data.merge(birdList, on='ch_name', how='left')
     data = data.sort_values(by=['id_num'], ascending=True)
@@ -48,10 +56,6 @@ try:
         "11": "con_level",
         "12": "red_list",
     }
-
-
-    def myDiv(n):
-        print("-" * n)
 
 
     def colSelctor():
@@ -106,7 +110,7 @@ try:
         opFinal = pd.DataFrame(opDict)
         return opFinal
 
-
+    intro()
     yourBirdList = finalOutput(colSelctor())
     print(yourBirdList)
     myDiv(50)
