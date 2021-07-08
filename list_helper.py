@@ -110,7 +110,6 @@ try:
         opFinal = pd.DataFrame(opDict)
         return opFinal
 
-    intro()
     yourBirdList = finalOutput(colSelctor())
     print(yourBirdList)
     myDiv(50)
