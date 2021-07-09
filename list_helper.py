@@ -9,23 +9,33 @@ try:
         print("-" * n)
 
     def intro():
-        print("1. 將自己調查到的鳥種整理成只有一欄的excel。請參考input_demo.xlsx。\n2. 把檔案存在跟程式同一個資料夾內。\n3. 2020_list.xlsx 這一個檔案也要放在同一個資料夾內。這裡面的內容可以直接在裡面更改，例如鳥種有誤之類的。\n4. 啟動 list_helper.exe。程式啟動後輸入鳥種清單檔名，不用打副檔名。\n5. 選擇想要的欄位，一次選一個。\n6. 式就會產生名錄excel檔，檔名為：output_目前日期時間.xlsx。")
+        print("")
+        print("1. 準備你自己的鳥類紀錄檔案，可以是鳥類調查的row data 只要裡面有學名即可。\n2. 把檔案存在跟程式同一個資料夾內。\n3. 2020_list.xlsx 這一個檔案也要放在同一個資料夾內。這裡面的內容可以直接在裡面更改，例如鳥種有誤之類的。\n4. 啟動 list_helper.exe。程式啟動後輸入鳥種清單檔名，不用打副檔名。如入完檔名後輸入你的資料中，中文鳥名的欄為(例如demo中的 學名)\n5. 選擇想要的欄位，一次選一個。\n6. 式就會產生名錄excel檔，檔名為：output_目前日期時間.xlsx。")
         myDiv(50)
 
     intro()
 
     fileName = input("請輸入xlsx檔案名稱(不用輸入副檔名)：")
+    colName = input("請輸入你的excel中，學名欄為名稱：")
     dataPath = './%s.xlsx' % (fileName)
     data = pd.read_excel(dataPath)
     listPath = './2020_list.xlsx'
     birdList = pd.read_excel(listPath)
 
-    data = data.merge(birdList, on='ch_name', how='left')
+    data = data.rename(columns= {"%s" % colName: "s_name"})
+
+    sName = data["s_name"].tolist()
+    sName = list(set(sName))
+
+    dataDict = {
+        "s_name": sName
+    }
+
+    data = pd.DataFrame(data = dataDict)
+
+    data = data.merge(birdList, on='s_name', how='left')
     data = data.sort_values(by=['id_num'], ascending=True)
     data = data.replace(np.nan, '', regex=True)
-
-    # print(dataOutput)
-
 
     colNameCh = {
         "1": "中文俗名",
@@ -120,4 +130,4 @@ try:
 except Exception as e:
     print(e)
 
-input("名錄已經輸出至相同資料夾下，感謝您的使用。\n請輸入任意鍵退出程式或直接按Enter結束程式：")
+input("名錄已經輸出至相同資料夾下，\n檔名為：output_%s.xlsx。\n感謝您的使用。\n請輸入任意鍵退出程式或直接按Enter結束程式：" %timeNow)
